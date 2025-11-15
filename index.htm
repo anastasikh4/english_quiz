@@ -86,6 +86,18 @@
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
         
+        .blank-select.correct {
+            border-color: #27ae60 !important;
+            background-color: #d5f5e3 !important;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2) !important;
+        }
+        
+        .blank-select.incorrect {
+            border-color: #e74c3c !important;
+            background-color: #fadbd8 !important;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+        }
+        
         .blank-select option {
             padding: 10px;
         }
@@ -320,7 +332,43 @@
             const blank4 = document.getElementById('blank4').value;
             const blank5 = document.getElementById('blank5').value;
 
-            // Correct answers: blank1=E, blank2=F, blank3=B, blank4=A, blank5=D
+            // Reset all select styles
+            document.querySelectorAll('.blank-select').forEach(select => {
+                select.classList.remove('correct', 'incorrect');
+            });
+
+            // Check each blank and apply appropriate style
+            if (blank1 === 'E') {
+                document.getElementById('blank1').classList.add('correct');
+            } else if (blank1 !== '') {
+                document.getElementById('blank1').classList.add('incorrect');
+            }
+
+            if (blank2 === 'F') {
+                document.getElementById('blank2').classList.add('correct');
+            } else if (blank2 !== '') {
+                document.getElementById('blank2').classList.add('incorrect');
+            }
+
+            if (blank3 === 'B') {
+                document.getElementById('blank3').classList.add('correct');
+            } else if (blank3 !== '') {
+                document.getElementById('blank3').classList.add('incorrect');
+            }
+
+            if (blank4 === 'A') {
+                document.getElementById('blank4').classList.add('correct');
+            } else if (blank4 !== '') {
+                document.getElementById('blank4').classList.add('incorrect');
+            }
+
+            if (blank5 === 'D') {
+                document.getElementById('blank5').classList.add('correct');
+            } else if (blank5 !== '') {
+                document.getElementById('blank5').classList.add('incorrect');
+            }
+
+            // Check overall result
             if (blank1 === 'E' && blank2 === 'F' && blank3 === 'B' && 
                 blank4 === 'A' && blank5 === 'D') {
                 document.getElementById('result').innerHTML = '🎉 Perfect! You completed the dialogue correctly!';
@@ -336,6 +384,7 @@
             // Reset all selects
             document.querySelectorAll('.blank-select').forEach(select => {
                 select.value = '';
+                select.classList.remove('correct', 'incorrect');
             });
             
             // Hide result
