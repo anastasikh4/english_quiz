@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialogue Completion Exercise</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .dialogue-box {
+            flex: 1;
+            min-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .options-box {
+            flex: 0 0 300px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #2980b9;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .dialogue-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .dialogue-line {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .speaker {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .blank {
+            display: inline-block;
+            width: 100%;
+            min-height: 40px;
+            border: 3px dashed #95a5a6;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 8px 0;
+            background: #ecf0f1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blank:hover {
+            border-color: #3498db;
+            background: #dfe6e9;
+        }
+        
+        .blank.filled {
+            border: 3px solid #27ae60;
+            background: #d5f5e3;
+        }
+        
+        .blank-content {
+            background: #27ae60;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 2px 0;
+            transition: all 0.2s ease;
+        }
+        
+        .blank-content:hover {
+            transform: scale(1.05);
+        }
+        
+        .phrase-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .phrase {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: grab;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            font-weight: bold;
+        }
+        
+        .phrase:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #2980b9, #1f618d);
+        }
+        
+        .phrase:active {
+            transform: translateY(0);
+        }
+        
+        .phrase.used {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            border: 2px solid #bdc3c7;
+        }
+        
+        .phrase-letter {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-right: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .check-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+        
+        .check-btn:hover {
+            background: linear-gradient(135deg, #27ae60, #2196f3);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .correct {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: 2px solid #27ae60;
+        }
+        
+        .incorrect {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: 2px solid #c0392b;
+        }
+        
+        .instructions {
+            background: #f1c40f;
+            color: #2c3e50;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .highlight {
+            background: #fffde7;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dialogue-box">
+            <h1>💬 Dialogue Completion Challenge</h1>
+            
+            <div class="instructions">
+                Drag and drop the phrases from the right panel into the correct blanks in the dialogue!
+            </div>
+            
+            <div class="section-title">Complete the Dialogue</div>
+            
+            <div class="dialogue-container">
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> Hi Peter! Where were you?
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Peter:</span> In my dad's office. I wanted to give him some papers.
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> <div class="blank" id="blank1"></div>
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Peter:</span> He's a lawyer.
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> Mine is a vet.
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Peter:</span> Wow! It must be very rewarding.
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> <div class="blank" id="blank2"></div>
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Peter:</span> Goodness me! Does he have any time for hobbies?
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> <div class="blank" id="blank3"></div>
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> He plays golf every weekend though if he has the chance. <div class="blank" id="blank4"></div>
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Peter:</span> He likes playing board games.
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> Board games! They're a bit boring, aren't they?
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Peter:</span> He doesn't seem to think so. He loves sitting by the fire playing chess.
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">Harry:</span> <div class="blank" id="blank5"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="options-box">
+            <div class="section-title">Drag & Drop Phrases</div>
+            
+            <div class="phrase-options">
+                <div class="phrase" data-id="A"><span class="phrase-letter">A</span> What are your dad's hobbies?</div>
+                <div class="phrase" data-id="B"><span class="phrase-letter">B</span> Not a lot really.</div>
+                <div class="phrase" data-id="C"><span class="phrase-letter">C</span> No, he's not actually.</div>
+                <div class="phrase" data-id="D"><span class="phrase-letter">D</span> If you say so.</div>
+                <div class="phrase" data-id="E"><span class="phrase-letter">E</span> What does your dad do?</div>
+                <div class="phrase" data-id="F"><span class="phrase-letter">F</span> Yes, it certainly is.</div>
+            </div>
+            
+            <div class="controls">
+                <button class="check-btn" onclick="checkAnswers()">✅ Check Answers</button>
+                <button class="reset-btn" onclick="resetExercise()">🔄 Reset</button>
+            </div>
+            
+            <div id="result" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let draggedPhrase = null;
+
+        function dragStart(e) {
+            draggedPhrase = this;
+            e.dataTransfer.effectAllowed = 'move';
+            // Add visual feedback
+            this.style.opacity = '0.7';
+        }
+
+        function dragEnd(e) {
+            if (draggedPhrase) {
+                draggedPhrase.style.opacity = '1';
+            }
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            if (draggedPhrase) {
+                const blank = this;
+                
+                // Clear the blank first
+                blank.innerHTML = '';
+                blank.classList.remove('filled');
+                
+                // Create new element with the phrase
+                const newPhrase = document.createElement('div');
+                newPhrase.className = 'blank-content';
+                newPhrase.innerHTML = draggedPhrase.innerHTML;
+                newPhrase.dataset.id = draggedPhrase.dataset.id;
+                
+                blank.appendChild(newPhrase);
+                blank.classList.add('filled');
+                
+                // Mark original phrase as used
+                draggedPhrase.classList.add('used');
+                draggedPhrase.style.display = 'none';
+                
+                draggedPhrase = null;
+            }
+        }
+
+        function blankDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function blankDrop(e) {
+            e.preventDefault();
+            if (draggedPhrase) {
+                const phraseElement = this.querySelector('.blank-content');
+                if (phraseElement) {
+                    // Return the phrase back to options
+                    const originalPhrase = document.querySelector(`.phrase[data-id="${phraseElement.dataset.id}"]`);
+                    if (originalPhrase) {
+                        originalPhrase.style.display = 'block';
+                        originalPhrase.classList.remove('used');
+                    }
+                    this.innerHTML = '';
+                    this.classList.remove('filled');
+                }
+                
+                // Now add the dragged phrase
+                const newPhrase = document.createElement('div');
+                newPhrase.className = 'blank-content';
+                newPhrase.innerHTML = draggedPhrase.innerHTML;
+                newPhrase.dataset.id = draggedPhrase.dataset.id;
+                
+                this.appendChild(newPhrase);
+                this.classList.add('filled');
+                
+                // Mark original as used
+                draggedPhrase.classList.add('used');
+                draggedPhrase.style.display = 'none';
+                
+                draggedPhrase = null;
+            }
+        }
+
+        // Add drag and drop functionality to phrases
+        document.querySelectorAll('.phrase').forEach(phrase => {
+            phrase.setAttribute('draggable', 'true');
+            phrase.addEventListener('dragstart', dragStart);
+            phrase.addEventListener('dragend', dragEnd);
+        });
+
+        // Add drag and drop functionality to blanks
+        document.querySelectorAll('.blank').forEach(blank => {
+            blank.addEventListener('dragover', blankDragOver);
+            blank.addEventListener('drop', blankDrop);
+        });
+
+        function checkAnswers() {
+            const blank1 = document.getElementById('blank1');
+            const blank2 = document.getElementById('blank2');
+            const blank3 = document.getElementById('blank3');
+            const blank4 = document.getElementById('blank4');
+            const blank5 = document.getElementById('blank5');
+
+            const blank1Content = blank1.querySelector('.blank-content') ? blank1.querySelector('.blank-content').dataset.id : '';
+            const blank2Content = blank2.querySelector('.blank-content') ? blank2.querySelector('.blank-content').dataset.id : '';
+            const blank3Content = blank3.querySelector('.blank-content') ? blank3.querySelector('.blank-content').dataset.id : '';
+            const blank4Content = blank4.querySelector('.blank-content') ? blank4.querySelector('.blank-content').dataset.id : '';
+            const blank5Content = blank5.querySelector('.blank-content') ? blank5.querySelector('.blank-content').dataset.id : '';
+
+            // Correct answers: blank1=E, blank2=F, blank3=B, blank4=A, blank5=D
+            if (blank1Content === 'E' && blank2Content === 'F' && blank3Content === 'B' && 
+                blank4Content === 'A' && blank5Content === 'D') {
+                document.getElementById('result').innerHTML = '🎉 Perfect! You completed the dialogue correctly!';
+                document.getElementById('result').className = 'result correct';
+            } else {
+                document.getElementById('result').innerHTML = '❌ Almost there! Check your answers and try again.';
+                document.getElementById('result').className = 'result incorrect';
+            }
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function resetExercise() {
+            // Clear all blanks
+            document.querySelectorAll('.blank').forEach(blank => {
+                blank.innerHTML = '';
+                blank.classList.remove('filled');
+            });
+            
+            // Show all phrases again
+            document.querySelectorAll('.phrase').forEach(phrase => {
+                phrase.style.display = 'block';
+                phrase.classList.remove('used');
+            });
+            
+            // Hide result
+            document.getElementById('result').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+
