@@ -33,15 +33,6 @@
             backdrop-filter: blur(10px);
         }
         
-        .options-box {
-            flex: 0 0 300px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
         h1 {
             text-align: center;
             color: #2c3e50;
@@ -77,88 +68,33 @@
             color: #2c3e50;
         }
         
-        .blank {
-            display: inline-block;
+        .blank-select {
             width: 100%;
-            min-height: 40px;
-            border: 3px dashed #95a5a6;
-            border-radius: 8px;
-            padding: 10px;
+            padding: 12px;
             margin: 8px 0;
-            background: #ecf0f1;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .blank:hover {
-            border-color: #3498db;
-            background: #dfe6e9;
-        }
-        
-        .blank.filled {
-            border: 3px solid #27ae60;
-            background: #d5f5e3;
-        }
-        
-        .blank-content {
-            background: #27ae60;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            display: inline-block;
-            margin: 2px 0;
-            transition: all 0.2s ease;
-        }
-        
-        .blank-content:hover {
-            transform: scale(1.05);
-        }
-        
-        .phrase-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .phrase {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: grab;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            font-weight: bold;
-        }
-        
-        .phrase:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            background: linear-gradient(135deg, #2980b9, #1f618d);
-        }
-        
-        .phrase:active {
-            transform: translateY(0);
-        }
-        
-        .phrase.used {
-            opacity: 0.7;
-            cursor: not-allowed;
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
             border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
         }
         
-        .phrase-letter {
-            font-size: 1.2em;
+        .blank-select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .blank-select option {
+            padding: 10px;
+        }
+        
+        .blank-label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            margin-right: 10px;
-            background: rgba(255,255,255,0.2);
-            padding: 3px 8px;
-            border-radius: 5px;
+            color: #2c3e50;
         }
         
         .controls {
@@ -245,6 +181,10 @@
             border-radius: 3px;
             font-weight: bold;
         }
+        
+        .select-container {
+            margin-bottom: 25px;
+        }
     </style>
 </head>
 <body>
@@ -253,7 +193,7 @@
             <h1>💬 Dialogue Completion Challenge</h1>
             
             <div class="instructions">
-                Drag and drop the phrases from the right panel into the correct blanks in the dialogue!
+                Select the correct phrase for each blank from the dropdown menus below!
             </div>
             
             <div class="section-title">Complete the Dialogue</div>
@@ -266,7 +206,19 @@
                     <span class="speaker">Peter:</span> In my dad's office. I wanted to give him some papers.
                 </div>
                 <div class="dialogue-line">
-                    <span class="speaker">Harry:</span> <div class="blank" id="blank1"></div>
+                    <span class="speaker">Harry:</span> 
+                    <div class="select-container">
+                        <label class="blank-label">Select phrase:</label>
+                        <select class="blank-select" id="blank1">
+                            <option value="">-- Choose an option --</option>
+                            <option value="A">A) What are your dad's hobbies?</option>
+                            <option value="B">B) Not a lot really.</option>
+                            <option value="C">C) No, he's not actually.</option>
+                            <option value="D">D) If you say so.</option>
+                            <option value="E">E) What does your dad do?</option>
+                            <option value="F">F) Yes, it certainly is.</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="dialogue-line">
                     <span class="speaker">Peter:</span> He's a lawyer.
@@ -278,16 +230,52 @@
                     <span class="speaker">Peter:</span> Wow! It must be very rewarding.
                 </div>
                 <div class="dialogue-line">
-                    <span class="speaker">Harry:</span> <div class="blank" id="blank2"></div>
+                    <span class="speaker">Harry:</span> 
+                    <div class="select-container">
+                        <label class="blank-label">Select phrase:</label>
+                        <select class="blank-select" id="blank2">
+                            <option value="">-- Choose an option --</option>
+                            <option value="A">A) What are your dad's hobbies?</option>
+                            <option value="B">B) Not a lot really.</option>
+                            <option value="C">C) No, he's not actually.</option>
+                            <option value="D">D) If you say so.</option>
+                            <option value="E">E) What does your dad do?</option>
+                            <option value="F">F) Yes, it certainly is.</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="dialogue-line">
                     <span class="speaker">Peter:</span> Goodness me! Does he have any time for hobbies?
                 </div>
                 <div class="dialogue-line">
-                    <span class="speaker">Harry:</span> <div class="blank" id="blank3"></div>
+                    <span class="speaker">Harry:</span> 
+                    <div class="select-container">
+                        <label class="blank-label">Select phrase:</label>
+                        <select class="blank-select" id="blank3">
+                            <option value="">-- Choose an option --</option>
+                            <option value="A">A) What are your dad's hobbies?</option>
+                            <option value="B">B) Not a lot really.</option>
+                            <option value="C">C) No, he's not actually.</option>
+                            <option value="D">D) If you say so.</option>
+                            <option value="E">E) What does your dad do?</option>
+                            <option value="F">F) Yes, it certainly is.</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="dialogue-line">
-                    <span class="speaker">Harry:</span> He plays golf every weekend though if he has the chance. <div class="blank" id="blank4"></div>
+                    <span class="speaker">Harry:</span> He plays golf every weekend though if he has the chance. 
+                    <div class="select-container">
+                        <label class="blank-label">Select phrase:</label>
+                        <select class="blank-select" id="blank4">
+                            <option value="">-- Choose an option --</option>
+                            <option value="A">A) What are your dad's hobbies?</option>
+                            <option value="B">B) Not a lot really.</option>
+                            <option value="C">C) No, he's not actually.</option>
+                            <option value="D">D) If you say so.</option>
+                            <option value="E">E) What does your dad do?</option>
+                            <option value="F">F) Yes, it certainly is.</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="dialogue-line">
                     <span class="speaker">Peter:</span> He likes playing board games.
@@ -299,145 +287,42 @@
                     <span class="speaker">Peter:</span> He doesn't seem to think so. He loves sitting by the fire playing chess.
                 </div>
                 <div class="dialogue-line">
-                    <span class="speaker">Harry:</span> <div class="blank" id="blank5"></div>
+                    <span class="speaker">Harry:</span> 
+                    <div class="select-container">
+                        <label class="blank-label">Select phrase:</label>
+                        <select class="blank-select" id="blank5">
+                            <option value="">-- Choose an option --</option>
+                            <option value="A">A) What are your dad's hobbies?</option>
+                            <option value="B">B) Not a lot really.</option>
+                            <option value="C">C) No, he's not actually.</option>
+                            <option value="D">D) If you say so.</option>
+                            <option value="E">E) What does your dad do?</option>
+                            <option value="F">F) Yes, it certainly is.</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <div class="options-box">
-            <div class="section-title">Drag & Drop Phrases</div>
-            
-            <div class="phrase-options">
-                <div class="phrase" data-id="A"><span class="phrase-letter">A</span> What are your dad's hobbies?</div>
-                <div class="phrase" data-id="B"><span class="phrase-letter">B</span> Not a lot really.</div>
-                <div class="phrase" data-id="C"><span class="phrase-letter">C</span> No, he's not actually.</div>
-                <div class="phrase" data-id="D"><span class="phrase-letter">D</span> If you say so.</div>
-                <div class="phrase" data-id="E"><span class="phrase-letter">E</span> What does your dad do?</div>
-                <div class="phrase" data-id="F"><span class="phrase-letter">F</span> Yes, it certainly is.</div>
-            </div>
-            
-            <div class="controls">
-                <button class="check-btn" onclick="checkAnswers()">✅ Check Answers</button>
-                <button class="reset-btn" onclick="resetExercise()">🔄 Reset</button>
-            </div>
-            
-            <div id="result" class="result" style="display: none;"></div>
+        <div class="controls">
+            <button class="check-btn" onclick="checkAnswers()">✅ Check Answers</button>
+            <button class="reset-btn" onclick="resetExercise()">🔄 Reset</button>
         </div>
+        
+        <div id="result" class="result" style="display: none;"></div>
     </div>
 
     <script>
-        let draggedPhrase = null;
-
-        function dragStart(e) {
-            draggedPhrase = this;
-            e.dataTransfer.effectAllowed = 'move';
-            // Add visual feedback
-            this.style.opacity = '0.7';
-        }
-
-        function dragEnd(e) {
-            if (draggedPhrase) {
-                draggedPhrase.style.opacity = '1';
-            }
-        }
-
-        function dragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        function drop(e) {
-            e.preventDefault();
-            if (draggedPhrase) {
-                const blank = this;
-                
-                // Clear the blank first
-                blank.innerHTML = '';
-                blank.classList.remove('filled');
-                
-                // Create new element with the phrase
-                const newPhrase = document.createElement('div');
-                newPhrase.className = 'blank-content';
-                newPhrase.innerHTML = draggedPhrase.innerHTML;
-                newPhrase.dataset.id = draggedPhrase.dataset.id;
-                
-                blank.appendChild(newPhrase);
-                blank.classList.add('filled');
-                
-                // Mark original phrase as used
-                draggedPhrase.classList.add('used');
-                draggedPhrase.style.display = 'none';
-                
-                draggedPhrase = null;
-            }
-        }
-
-        function blankDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        function blankDrop(e) {
-            e.preventDefault();
-            if (draggedPhrase) {
-                const phraseElement = this.querySelector('.blank-content');
-                if (phraseElement) {
-                    // Return the phrase back to options
-                    const originalPhrase = document.querySelector(`.phrase[data-id="${phraseElement.dataset.id}"]`);
-                    if (originalPhrase) {
-                        originalPhrase.style.display = 'block';
-                        originalPhrase.classList.remove('used');
-                    }
-                    this.innerHTML = '';
-                    this.classList.remove('filled');
-                }
-                
-                // Now add the dragged phrase
-                const newPhrase = document.createElement('div');
-                newPhrase.className = 'blank-content';
-                newPhrase.innerHTML = draggedPhrase.innerHTML;
-                newPhrase.dataset.id = draggedPhrase.dataset.id;
-                
-                this.appendChild(newPhrase);
-                this.classList.add('filled');
-                
-                // Mark original as used
-                draggedPhrase.classList.add('used');
-                draggedPhrase.style.display = 'none';
-                
-                draggedPhrase = null;
-            }
-        }
-
-        // Add drag and drop functionality to phrases
-        document.querySelectorAll('.phrase').forEach(phrase => {
-            phrase.setAttribute('draggable', 'true');
-            phrase.addEventListener('dragstart', dragStart);
-            phrase.addEventListener('dragend', dragEnd);
-        });
-
-        // Add drag and drop functionality to blanks
-        document.querySelectorAll('.blank').forEach(blank => {
-            blank.addEventListener('dragover', blankDragOver);
-            blank.addEventListener('drop', blankDrop);
-        });
-
         function checkAnswers() {
-            const blank1 = document.getElementById('blank1');
-            const blank2 = document.getElementById('blank2');
-            const blank3 = document.getElementById('blank3');
-            const blank4 = document.getElementById('blank4');
-            const blank5 = document.getElementById('blank5');
-
-            const blank1Content = blank1.querySelector('.blank-content') ? blank1.querySelector('.blank-content').dataset.id : '';
-            const blank2Content = blank2.querySelector('.blank-content') ? blank2.querySelector('.blank-content').dataset.id : '';
-            const blank3Content = blank3.querySelector('.blank-content') ? blank3.querySelector('.blank-content').dataset.id : '';
-            const blank4Content = blank4.querySelector('.blank-content') ? blank4.querySelector('.blank-content').dataset.id : '';
-            const blank5Content = blank5.querySelector('.blank-content') ? blank5.querySelector('.blank-content').dataset.id : '';
+            const blank1 = document.getElementById('blank1').value;
+            const blank2 = document.getElementById('blank2').value;
+            const blank3 = document.getElementById('blank3').value;
+            const blank4 = document.getElementById('blank4').value;
+            const blank5 = document.getElementById('blank5').value;
 
             // Correct answers: blank1=E, blank2=F, blank3=B, blank4=A, blank5=D
-            if (blank1Content === 'E' && blank2Content === 'F' && blank3Content === 'B' && 
-                blank4Content === 'A' && blank5Content === 'D') {
+            if (blank1 === 'E' && blank2 === 'F' && blank3 === 'B' && 
+                blank4 === 'A' && blank5 === 'D') {
                 document.getElementById('result').innerHTML = '🎉 Perfect! You completed the dialogue correctly!';
                 document.getElementById('result').className = 'result correct';
             } else {
@@ -448,16 +333,9 @@
         }
 
         function resetExercise() {
-            // Clear all blanks
-            document.querySelectorAll('.blank').forEach(blank => {
-                blank.innerHTML = '';
-                blank.classList.remove('filled');
-            });
-            
-            // Show all phrases again
-            document.querySelectorAll('.phrase').forEach(phrase => {
-                phrase.style.display = 'block';
-                phrase.classList.remove('used');
+            // Reset all selects
+            document.querySelectorAll('.blank-select').forEach(select => {
+                select.value = '';
             });
             
             // Hide result
